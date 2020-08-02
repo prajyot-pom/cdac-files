@@ -1,0 +1,99 @@
+# OS Concepts Linux Programming:
+Lab Work: 01 -- Linux Commands
+
+ - open terminal:
+ 	cntl+alt+t
+ - to display path of the current directory/location
+ 	$pwd
+ - command name -- "pwd" - print/present working directory
+ 	- this command displays absolute path (full path) of the present working directory
+	- pwd comamand internally refers the value of shell variable by the name "PWD".
+
+ - create a new directory in a home directory named as -- "os/linux_commands"
+ 	$mkdir -p os/linux_commands
+ - create dir's by the name one, two and three
+ 	$mkdir one two three
+ - to check dir's got created or not
+ 	$ls
+ - goto the dir one
+ 	$cd one
+ - goto to the previously accessed directory
+ 	$cd -
+ - create a new file by the name "file.txt" and enter your name personal information into it
+ 	$cat > file.txt
+ 	sachin pawar
+ 	sunbeam karad, pune.
+ 
+ - press (cntrl+d) to stop writing the contents into the file ( i.e. to enter end of file character into the file.
+ - to display contents of the file
+ 	$cat file.txt
+ - to display contents of the file in a reverse order
+ 	$tac file.txt
+ - to append data into the file "file.txt"
+ 	$cat >> file.txt
+ 	algorithms and data structures
+ 	operating system concepts and linux programming
+ 	(cntrl+d)
+ - create two more files "file2.txt" and "file3.txt"
+	file2.txt contents are:
+		c programming language
+		java programming lanaguage
+		c++ programming language
+		advanced web programming
+	file3.txt contents are:
+		android programming
+		iphone programming
+		mobile computing technologies
+ - enter the following command:
+ 	$cat file1.txt file2.txt file3.txt
+ - cat command used to concatenate contents of the file/s and display on the terminal
+ - display contents of the current directory by using following commands and observe
+ 	$ls --> it displays bydefualt contents of the current dir in a columnwise sorted manner
+ 	$ls <dirpath> -- it displays contents of the "dirpath" whereas "dirpath" may be either an
+ 	absolute path or a relative path.
+ 	$ls -l <dirpath> --> it displays contents of the dir in a listing format
+ 	$ls -a <dirpath>--> it displays all the contents of the current dir including hidden files
+ 	$ls -A <dirpath> --> it displays all the contents of the current dir including hidden files except two entries [ "." -> current dir and ".." parent dir ]
+ 	$ls -R <dirpath> --> to display contents of the directory recursively
+	
+  	- explore other options of "ls" command with the help of "man" command
+  - "man" command is a system manual pager i.e. online help of linux system which is used to
+  display information about commands/library functions/system calls etc...
+  	$man ls --> to display information about "ls" command - bydefualt it displays information
+  	user commands from section-1 of manual pages.
+  	
+  	$man 1 mkdir --> to display information about "mkdir" command
+  	$man 2 _exit --> to display information about _exit() system call
+  	$man 3 printf --> to display information about printf() library functions
+  	etc...
+  	
+  	- explore man command with the following command
+  		$man man
+  		
+  	- command name -- "cd"
+  	- this command used to change the directory
+  	$cd <dirpath> --> change directory to the "dirpath"
+  	$cd . --> change dir to the current directory
+  	$cd .. --> change dir to its parent directory
+  	$cd / --> cd . --> change dir to the root directory
+  	$cd ~ --> change dir to the home directory
+  	$cd - --> change dir to the previously accessed dir
+
+	- command name -- "mkdir" - this command is used to create directory/directories
+	$mkdir dir1 dir2 dir3 --> createa 3 dir's in the current directory
+	$mkdir -p first second third --> creates directories recursively
+	- display contents of the current directory recursively.
+		$ls -R
+	
+	- command name -- "rmdir" -  this command is used to remove directory
+		$rmdir <dirpath> --> to remove empty directory only
+		$rm -r <dirpath> --> to remove the contents of the dir recursively
+	- comamnd name -- "touch" - change the file timestamps
+	- $touch india.txt --> timestamps of a file "india.txt" gets changes if it exists, if it
+	is not exists new file named as "india.txt" gets created having size 0.
+	- command name -- "cp" - copy files and directories
+	- command name -- "mv" - move file/files from one location to another location
+		$mv <filepath> <dest_dir_path>
+		- also can be used to rename the file if filepath is exists in a dest_dir_path itself.
+		
+

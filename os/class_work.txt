@@ -1,0 +1,234 @@
+ 1774  ls
+ 1775  cd os/
+ 1776  ls
+ 1777  git status
+ 1778  git add .
+ 1779  git commit -m "OS:DAY-01"
+ 1780  git push
+ 1781  git status
+ 1782  ls
+ 1783  exit
+ 1784  cd aug2019/d
+ 1785  cd aug2019/dac/
+ 1786  ls
+ 1787  cd os/
+ 1788  ls
+ 1789  cd project/
+ 1790  ls
+ 1791  rm *.o
+ 1792  rm program
+ 1793  ls
+ 1794  vim program.c 
+ 1795  gcc -c program.c 
+ 1796  ls
+ 1797  gcc -o program.out program.o -nostartfile -esachin
+ 1798  gcc -o program.out program.o -nostartfiles -esachin
+ 1799  ls
+ 1800  ls -l
+ 1801  ./program.out 
+ 1802  rm program.out 
+ 1803  rm program.o
+ 1804  ls
+ 1805  gcc -c program.c 
+ 1806  gcc -o program.out program.o
+ 1807  gcc -o program.out program.o -nostartfiles-esachin
+ 1808  gcc -o program.out program.o -nostartfiles -esachin
+ 1809  ls
+ 1810  ./program.out 
+ 1811  rm *.out *.o
+ 1812  ls -l
+ 1813  ls
+ 1814  vim program.c 
+ 1815  ls
+ 1816  vim program.c 
+ 1817  gcc -c program.c 
+ 1818  ls
+ 1819  gcc -o program.out program.o
+ 1820  gcc -o program.out program.o -nostartfiles -esachin
+ 1821  ls
+ 1822  ./program.out 
+ 1823  vim program.c 
+ 1824  gcc -c program.c 
+ 1825  gcc -o program.out program.o -nostartfiles -esachin
+ 1826  ./program.out 
+ 1827  exit
+ 1828  cd aug2019/dac/os/
+ 1829  mkdir one
+ 1830  ls
+ 1831  ls -a one/
+ 1832  ls -l -a one/
+ 1833  rmdir one/
+ 1834  mkdir -p one/two/three
+ 1835  ls
+ 1836  ls one/
+ 1837  ls one/two/
+ 1838  ls -R one/
+ 1839  ls -R os/
+ 1840  rmdir one/
+ 1841  rm -r one/
+ 1842  pwd
+ 1843  cd /
+ 1844  pwd
+ 1845  ls
+ 1846  cd ~
+ 1847  pwd
+ 1848  echo $SHELL
+ 1849  echo $PATH
+ 1850  pwd
+ 1851  ls
+ 1852  ls aug2019/
+ 1853  ls aug2019/dac/
+ 1854  ls -l aug2019/dac/
+ 1855  ls -l /dev
+ 1856  ls -l aug2019/dac/
+ 1857  ls -l -s aug2019/dac/
+ 1858  ls -s 
+ 1859  ls -l aug2019/dac/ds/
+ 1860  ls -l aug2019/dac/os/
+ 1861  ls -l -s aug2019/dac/os/
+ 1862  ls -a
+ 1863  ls -l -a aug2019/dac/os/
+ 1864  ls -l -A aug2019/dac/os/
+ 1865  ls
+ 1866  ls -a
+ 1867  ls -a -h
+ 1868  ls -a -h -l
+ 1869  man ls
+ 1870  man man
+ 1871  man mkdir
+ 1872  man 1 mkdir
+ 1873  man 2 mkdir
+ 1874  man 3 mkdir
+ 1875  man 3 printf
+ 1876  man 3 scanf
+ 1877  man man
+ 1878  cd aug2019/dac/os/
+ 1879  pwd
+ 1880  ls
+ 1881  mkdir os
+ 1882  cat > .india.txt
+ 1883  cat .india.txt 
+ 1884  cat > file1.txt
+ 1885  cat > file2.txt
+ 1886  ls
+ 1887  ls -a
+ 1888  cat file1.txt file2.txt .india.txt 
+ 1889  cat > file3.txt
+ 1890  ls -l -a
+ 1891  cat > .india.txt 
+ 1892  cat .india.txt 
+ 1893  cat >> .india.txt 
+ 1894  cat .india.txt 
+ 1895  cat -n file1.txt file2.txt 
+ 1896  touch india.txt
+ 1897  ls -l india.txt 
+ 1898  ls -l -s india.txt 
+ 1899  ls ~
+ 1900  ls -l ~
+ 1901  ls -l ~/notes.txt 
+ 1902  touch ~/notes.txt 
+ 1903  ls -l ~/notes.txt 
+ 1904  man ls
+ 1905  ls -l
+ 1906  ls -l file1.txt 
+ 1907  chmod +w file1.txt 
+ 1908  ls -l file1.txt 
+ 1909  chmod +x file1.txt 
+ 1910  ls -l file1.txt 
+ 1911  chmod -x file1.txt 
+ 1912  ls -l file1.txt 
+ 1913  chmod g+w file1.txt 
+ 1914  ls -l file1.txt 
+ 1915  chmod g+x file1.txt 
+ 1916  ls -l file1.txt 
+ 1917  chmod o+x file1.txt 
+ 1918  ls -l file1.txt 
+ 1919  chmod o-x file1.txt 
+ 1920  ls -l file1.txt 
+ 1921  chmod g-x file1.txt 
+ 1922  ls -l file1.txt 
+ 1923  chmod u+x file1.txt 
+ 1924  ls -l file1.txt 
+ 1925  ls -x file1.txt 
+ 1926  chmod -x file1.txt 
+ 1927  ls -l file1.txt 
+ 1928  man chmod
+ 1929  ls -l file1.txt 
+ 1930  chmod 0777 file1.txt 
+ 1931  ls -l file1.txt 
+ 1932  chmod 0644 file1.txt 
+ 1933  ls -l file1.txt 
+ 1934  chmod 0000 file1.txt 
+ 1935  ls -l file1.txt 
+ 1936  chmod 0644 file1.txt 
+ 1937  ls -l file1.txt 
+ 1938  ls -l
+ 1939  ls -l -a
+ 1940  ls -l -a -h
+ 1941  ls -l
+ 1942  ls -l > out.txt
+ 1943  ls
+ 1944  cat out.txt 
+ 1945  wc < out.txt 
+ 1946  ls -M
+ 1947  ls -M 2> err.txt
+ 1948  cat err.txt 
+ 1949  ls
+ 1950  rm *.txt
+ 1951  ls
+ 1952  ls -l
+ 1953  ls -l > temp.txt
+ 1954  wc < temp.txt 
+ 1955  ls -l temp.txt 
+ 1956  ls -l -s temp.txt 
+ 1957  rm *.txt
+ 1958  ls
+ 1959  ls -l | wc
+ 1960  ls -a
+ 1961  echo "SunBeam"
+ 1962  echo "SunBeam" | tr "a-z" "A-Z"
+ 1963  echo "SunBeam" | tr "A-Z" "a-z"
+ 1964  echo "SunBeam" | tr "a-zA-Z" "A-Za-z"
+ 1965  echo $PATH
+ 1966  echo $PATH | tr ":" "\n"
+ 1967  cat > numbers.txt
+ 1968  cat numbers.txt 
+ 1969  cat numbers.txt | less
+ 1970  cat numbers.txt | head
+ 1971  cat numbers.txt | tail
+ 1972  cat numbers.txt | tail -5
+ 1973  cat numbers.txt | tail -20
+ 1974  cat numbers.txt | tail -20 | head
+ 1975  cat > numbers.txt
+ 1976  cat numbers.txt
+ 1977  uniq numbers.txt
+ 1978  sort numbers.txt 
+ 1979  sort numbers.txt | uniq
+ 1980  cat > numbers.txt 
+ 1981  sort numbers.txt 
+ 1982  sort -n numbers.txt 
+ 1983  cd os/
+ 1984  ls
+ 1985  cd commands/
+ 1986  ls
+ 1987  cat sunbeam.txt 
+ 1988  cat sunbeam.txt | cut -d " " -f1 
+ 1989  cat sunbeam.txt | cut -d " " -f1,2
+ 1990  cat sunbeam.txt | cut -d " " -f1,2,3
+ 1991  ls -i -l
+ 1992  ls -i -l | cut -d " " -f1
+ 1993  ls -i -l | cut -d " " -f1,2
+ 1994  ls -i -l | cut -d " " -f1,2,3
+ 1995  ls -i -l | cut -d " " -f1,2,9
+ 1996  w
+ 1997  man w
+ 1998  w
+ 1999  tty
+ 2000  w
+ 2001  man w
+ 2002  sudo adduser nilesh
+ 2003  w
+ 2004  sudo deluser nilesh
+ 2005  users
+ 2006  man users
+ 2007  history > class_work.txt

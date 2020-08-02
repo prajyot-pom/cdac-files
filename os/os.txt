@@ -1,0 +1,1084 @@
+PG-DAC: MODULE NAME: Operating System Concepts (Linux)
+1. Theory Exam		: 40 Marks
+2. Lab Exam		: 40 Marks
+3. Internal Exam	: 20 Marks
+---------------------------------------------------------
+# OS Subject:
+- there are four steps to learn an OS subject:
+1. step1: "end user" -- linux commands - user commands
+2. step2: "admin user" -- admin commands, shell script programming & installations
+3. step3: "programmer user" -- system call programming
+4. step4: "design/internals" -- to learn os internals/architecture
+----------------------------------------------------------------------------------
+# What is Computer?
+- Computer is a machine/hardware/digital device mainly contains: Processor/CPU, Memory Devices, I/O Devices etc....
+- Basic Functions of Computer:
+	1. data storage
+	2. data processing
+	3. data movement
+	4. control
+- by using computer machine different tasks can be performed efficiently and accurately.
+
+- What is a Program?
+- set of instructions given to the machine to do specific task.
+
+- there are three types of programs:
+1. "user programs": programmer user defined programs.
+e.g. main.c, main.cpp, hello.java etc...
+
+2. "application programs": e.g. notepad, google chrome, mozilla firefox, eclipse etc...
+
+3. "system programs": e.g. device driver, loader, scheduler, interrupt handler program etc...
+	
++ "source code": program written in any programming language is called as source code.
+e.g. c source code, c++ source code, java source code etc....
+- to write a source code we required an editor program
+e.g. notepad, gedit, vi editor, eclipse editor program etc...
+- Eclipse is an IDE: Integrated Developement Environment.
+- It is an "application software" which is a collection of tools like an editor, compiler, linker, assembler, debugger etc... required for faster s/w developement.
+- An IDE normally consists of a source code editor, build automation tools, and a debugger.
+- Most of the IDEs have intelligent code completion.
+- Some IDEs such as netbeans and eclipse, contains a compiler, interpreter, or both.
+- IDE is in constrast with vi editor, gcc, ld etc....
+e.g. eclipse, netbeans, code blocks, visual studio, turbo c etc....
+	
+# Compilation Flow:
++ "preprocessor": it is an application program gets executed before compilation and performs two tasks: 
+1. removes all comments from the source code and
+2. executes all pre-processor directives like #include, #define, #ifndef, #ifdef, #elif, #endif etc... conditional compilation preprocessor directive i.e. header guards.
+e.g. "cpp" - c preprocessor.
+- the output of preprocessor is an intermediate code as this file gets created with the combination of header file and source file, size of this file gets increases and hence it is also called as an expanded source code.
+- command to create an intermediate code/file from source code/file:
+	$gcc -E -o program.i program.c --> program.i
+
++ "compiler": compiler is an application program which converts high level programming language code (i.e. human understandable language code) into the low level programming language code i.e. ( machine understandable language code).
+- output of a compiler is an "assembly language code"
+- e.g. GCC: GNU Compiler's Collection, originally named as GNU C Compiler.
+GNU: GNU’s Not UNIX/GNU is Not UNIX which is a recursive acronym.
+GNU: it is an Open Source Project by OSF - Linux is also a GNU Project.
+- now a days GCC can be used for compilation of C++, FORTRAN, Objective C, Objective C++, Ada etc...
+languages.
+- we need to use front ends of "gcc".
+- turbo c by borland, microsoft visual c etc....
+- compiler does tokanization, syntax checking, code analysis, code optimization etc...
+"Compiler's Construction" -- by Aho, Ullman -- from AT&T Bells Labs.
+- command to create an assembly language code from the source code:
+	$gcc -S program.c --> program.s
+
++ assembler: it is an application program which converts assembly language code into the machine language code i.e. object code.
+e.g. linux -- "asm", windows -- "masm", turbo "tasm" etc....
+	
+- definitions of all library function are exists in a "lib" folder in "precompiled object module" format.
+	
++ linker: it is an application program which links object file(s) in a project with precompiled object modules of library functions and creates final "single" executable file.
+	e.g. "ld" -- link editor
+	
+"build = compilation + linking"
+compilation --> to create object code from source code
+linking --> linking of all object files with precompiled object modules by the linker and creates single executable file.
+
+- command to create executable file from object file
+	$gcc -o program.out program.o --> program.out
+		
+- command to execute a program
+	$./program.out
+	
+	
+program.c --> [ preprocessor] --> program.i --> [ compiler ] --> program.s/.asm --> [ assembler ] --> program.o/.obj --> [ linker ] --> program.out/.exe
+	
+- "portability": c program written on one machine/platform can be compiled and execute on any other machine/platform.
+- in linux, file format of an executable file is "ELF": Executable & Linkable Format (Formerly named as Extensible Linking Format), whereas in Windows, file format of an executable file is "PE": Portable Executable.
+- ELF is a common standard file format for an executable files, object codes, shared libraries, and core dumps.
+- core dump is also called as crash dump, memory dump, or system dump consists of the recorded state of the working memory of a computer program at a specific time, generally when the program has crashed or otherwise terminated abnormally.
+- executable file is a program only contains set of instructions with extra information.
+- in Linux, ELF is a "sectioned binary", i.e. executable file in linux is divided into different sections, mainly it contans: exe header/primary header, data section, bss i.e. block started by symbol section, rodata i.e. read only data section, code/text section, symbol table etc....
+	
+1. "exe header/primary header": it contains info to starts the execution of an executable file, mainly it contains:
+i. magic number: it is a constant number generated by the compiler which is file format specific.
+- in ELF magic number starts with "7f E L F" -- ASCII values of letters E, L & F in hexadecimal format.
+- in PE -- magic number starts with ASCII values of letters M Z in their hex format "Mark Zbikowski" architect of windows operating system at Microsoft.
+ii. addr of entry point function: it contains addr of _start() routine in which addr of function can be kept from which execution to be started.
+iii. info about remaining sections (metadata -- data about data)
+
+2. "data section": it contains initialized global & static variables.
+
+3. "bss section (bock started by symbol)": it contains uninitialized global & static variables.
+
+4. "rodata section (read only data section)": it contains constants & constant string literals.
+e.g.	const int num = 100; -- constants
+		char *str = "sunbeam infotech"; -- constant string literals
+				
+5. "code/text section": executable instructions
+
+6. "symbol table": it contains info about functions and their variables in tabular format.
+etc...
+
++ "loader": it is a system program i.e. part/module of an OS, which first verifies the file format of an executable file, if file format matches then only it checks the magic number, and if both the matches then only it loads program into the main memory, and we say program becomes a process.
+	
+- Command Name: readelf - is the command to display information about one or more ELF format object files/an executable file in linux.
+$readelf -h filename - display info about the elf header
+$readelf -a fileame - display all info about an executable file.
+	
+- Command Name: objdump - command to display information about object files, executable files as well core dump file.
+
+- Command Name: size – The GNU size utility lists the section sizes and the total size for each of the object or archive files.
+
+- Command Name: file – determine file type
+- file command tests each argument in an attempt to classify it. There are three sets of tests, performed in this order: filesystem tests, magic tests, and language tests. The first test that succeeds causes the file type to be printed.
+
+---------------------------------------------------------
+# What is an OS?
+- It is a system software (i.e. collection of system programs), which acts as an interface between user and computer hardware (i.e. processor, memory devices & io
+devices etc...).
+- An OS also acts as an interface between programs and computer hardware.
+- As an OS allocates required resources like CPU time, main memory, i/o device access to running programs, it is also called as "resource allocator".
+- As an OS manages available resources among all running programs, it is also called as a "resource manager".
+- An OS provides environment/platform to all types of programs to complete their execution.
+- An OS controls execution of all programs, as well as it controls all h/w devices connected to the system, so it is also called as "control program".
+- OS is a software which comes in CD/DVD
+"OS = Kernel + Utility Programs + Application Programs"
+
+1. Kernel: it is a core part/program of an OS that runs continuosly into the main memory does basic minimal functionalities of it.
+i.e. Kernel = OS - without kernel OS is nothing
+- "Kernel is OS OR OS is Kernel".
+		
+2. Utility Programs/Softwares:
+- e.g. disk manager, task manager, anti-virus software, backup software etc...
+
+3. Application Programs/Softwares:
+- e.g. MS Office, vi editor, etc....
+
+- installation of an OS -- to store OS s/w into the computer machine i.e. storing OS programs onto the hard disk drive.
+
+# Booting:
+- If first sector of the storage device/partition contains bootstrap program, then it is called as "bootable device/partition".
+- Bootstrap program is different for each OS and can load kernel of that system into the memory.
+- Bootloader program displays options for which OS to be started (in case of multiple OS) and depending on user selection starts appropriate bootstrap program.
+
+# Booting Steps:
+- When computer is powered on, programs from the Base ROM (BIOS) are fetched into the RAM automatically.
+- The first program from BIOS i.e. POST is executed, which checks whether all devices are functioning properly.
+- Then another BIOS program i.e. "bootstrap loader" is executed, which find the bootable device and starts bootloader program.
+- As explained above, bootloader program starts appropriate bootstrap program, which in turn load OS kernel. Thus OS boots.
+
+
+- if user want to do interaction with an operating system there are programs by which user can interacts with the system.
+- there are two ways by which user can interacts with an OS:
+1. CUI/CLI: Command User Interface/Command Line Interface
+- user can interacts with the OS by means of entering commands in text format.
+- program like "shell" in linux which acts as a "command line interpreter" which takes command from the user and invokes kernel functionalities.
+- Windows - cmd.exe
+- MSDOS - command.com
+		
+2. GUI: Graphical User Interface
+- user can interacts with the OS by means of making events like rihght click, click on buttons, menu, menu bar, start window, etc....
+- Windows - explorer.exe
+- Linux - GNOME/KDE
+	GNOME - GNU Network Object Model Environment
+	KDE - Common Desktop Environment
+-----------------------------------------------------------------------
+# Linux Filesystem Structure:
+- While installation of Linux system we need to create two partitions:
+1. "/" partition also called as data partition
+2. swap partition
+- Linux follows FHS i.e. FileSystem Heirarchy Standards.
+- data can be store into the "data partition" in an organized manner, so linux filesystem structure is having heirachical structure, which is a like an inverted tree.
+- when any user loggedon into the system/opens a terminal, system takes the user bydefualt into the user's home dir.
+- linux filesystem structure starts with root dir ("/"), and all the data can be stored/kept inside it under sub-dir's in an organized manner.
+- root dir i.e. "/" dir contains sub-dir's like "/boot", "/bin", "/sbin", "/etc", "/lib", "/usr", "/home", "/root" "/mnt", "/dev" etc....
+
+1. "/boot": contains static files of the boot loader, kernel, initrd (initial ramdisk).
+- initrd (initial ramdisk) is a scheme for loading a temporarily root filesystem into memory, which may be used as a part of the linux startup process, initrd and initramfs refer to two different methods of acheiving this. Both are commonly used to make preparations before the real root file system can be mounted.
+- it contains information about booting the system
+- it contains linux kernel by the name vmlinuz.
+
+2. "/bin": contains user commands in binary format, like ls, cat, cp etc...
+
+3. "/sbin": contains admin/system commands in binary format, like lscpu, adduser, deluser, etc...
+
+4. "/home": contains home dir's of all user for multi-user system.
+- for any user on its creation of an account bydefault subdir by the name of the user got created by the operating system, in which that user can store data, user can have read, write as well execute perms in that dir.
+
+5. "/root": root is a home dir for root user
+
+6. "/etc": contains host specific system configuration files - it is like a "control panel" in windows.
+- in computing configuration files (or config files ) are files used to configure the parameters and initial settings for some computer programs. They are used for user applications, server processes and operating system settings.
+- e.g. YaST: Yet another Setup Tool ( Linux operating system setup and configuration tool) or debconf (for performing system-wide configuration taskson UNIX-like operating systems).
+"/etc/opt": contains configuration files for add-on-packages that are stored in /opt.
+
+7. "/dev": contains device files
+
+8. "/lib": contains shared libraries required for /bin and /sbin.
+
+9. "/mnt": contains temporarily mounted filesystems
+
+10. "/media": mount point for removable media such as CDROMs.
+
+11. "/opt": contains optional application software packages.
+ 
+12. "/proc": virtual filesystem provides process and kernel information as a files. In Linux , corresponds to a procfs mount. Generally automatically generated and populated by the system, on the fly.
+	
+	
+# path - it is a unique location of any file in a filesystem structure that can be represent in a string format i.e. in sequence of chars format seperated filenames/sub-dir names by delimiter char or delimiter.
+e.g. "/home/sachin"
+- there are three delimiter chars:
+	1. slash ("/") -- in linux
+	2. backslash ("\") -- in windows
+	3. colon (":") -- in linux as well as in windows
+- there are two ways by which we can mention path of any file/dir:
+1. absolute path: path of any file/dir with respect to root directory ("/") i.e. it is a full path of any file/dir which starts with root dir ("/").
+	
+2. relative path: path of any file/dir with respect to the current working dir.
+=========================================================
+- UNIX consideres/treats everything as a file, i.e. from UNIX point of view (as Linux is UNIX like/based OS ) there are 7 types of files in UNIX/Linux:
+1. regular file (-): linux treats all text files, source files, audio files vedio files, image files etc....
+2. directory file (d): directory special file whose contents are name of files and sub dir's.
+3. character special device file (c): devices from which data gets transferred character by character are called as character special devices e.g. KBD, Monitor, Printer, serial ports & parellel ports etc...
+- information of device file gets loaded into "/dev" while booting.
+4. block special device file (b): devices from which data gets transefered block by block are called as block devices, e.g. all storage devices are block devices
+- OS treats all block devices as "block special device file".
+5. socket file (s): this is special type of file can be used for an IPC.
+6. named pipe file (p): this file can be used for an IPC
+7. linkable file (l): this is special type of file which contains info about another file.
+
++ Command Name: "pwd" - print/present working directory
+- this command displays absolute path (full path) of the present working directory
+- pwd comamand internally refers the value of shell variable by the name "PWD".
+	
++ Command Name: "cd" - to change current working directory
+$cd <dirpath> -- change dir to the dirpath
+$cd / -- goto the root directory -- "/" slash -- is user short hand variable
+$cd ~ -- goto the user's home dir -- "~" tild symbol -- is user short hand variable
+$cd   -- goto the user's home dir
+$cd - -- goto the prev directory
+$cd . -- remains in current dir
+$cd .. -- goto the parent dir of the current working dir
+	
++ Command Name: "ls" - to display contents of the directory
+- contents of the dir are nothing but name of files and sub-dir's.
+$ls <dirpath> -- it display contents of the dir by the name "dirpath".
+$ls -- bydefault it displays contents of the current directory
+$ls -l -- it display contents of the dir in a listing format.
+		
+total n
+n = total no. of data blocks allocated for the files and sub dir's in a given dir
+feild-1: first char of feild 1 denotes type the file next 3 chars of field 1 denotes access perms for user/owner
+next 3 chars of field 1 denotes access perms for group members last 3 chars of field 1 denotes access perms for group others.
+Feild-2: denotes no. of links exists for that file for regular file bydefualt no. of links i.e. link count = 1
+for directory file bydefualt no. of links i.e. link count = 2.
+feild-3 : denotes name of an user/owner
+feild-4 : denotes name of group
+feild-5 : denotes name of size of the file
+feild-6 : denotes time stamps - date of creation and last modified date & time in ISO format.
+feild-7 : name of the file
+- In UNIX/Linux filename starts with (".") are considered as a hidden file
+- the period (".")
+		
+
+options/flags/args description:
+-h : displays size of the files in human redable format
+-l : displays contents of the dir in a listing format
+-a : display all contents of the dir (including hidden files)
+-A : display all contents of the dir (including hidden files but excluding entries for "." & "..").
+-i : display inode number of the files inode number is an unique idenfier of the file.
+etc..... explore more options from man pages
+	 
++ Command Name: "cat" - 
+- cat command is used for concatenation of file/files and print it onto standard output.
+- cat command can be used to display contents of the regular file.
+ 
++ Command Name: "chmod" - used to change file mode bits
+- to assign access perms for user/owner, group members and others.
+	 +x : to assign execute perm to all
+	 +r : to assign read perm to all
+	 +w : to assign write perm to all
+	 u+r: to assign read perm to user/owner
+	 u+w: to assign write perm to user/owner 
+	 u+x: to assign excecute perm to user/owner
+	 g+r: to assign read perm to group members
+	 
+	 r -- read -- 4
+	 w -- write -- 2
+	 x -- execute -- 1
+	 .
+	 .
+	 .
+	 
++ Command Name: "cp" - to copy file/files
+$cp <source> <destination>
+	 
++ Command Name: "mv" - command used to move file/s from one location to another location.
+- this command can also be used to rename file/dir.
+
++ Command Name: "mkdir"
++ Command Name: "rmdir"
++ Command Name: "rm"
++ Command Name: "touch"
+	 
+- Shell variables - PWD, PATH etc...
+- Internally "shell" refers value of PATH variable to search binary of entered command and load/execute it from that location.
+
+====================================================================================
+- OS bydefualt opens 3 files for any program:
+1. stdin: standard input buffer -- program accepts/reads input from which stdin file/buffer.
+	 	
+2. stdout: standard output buffer -- output of any program gets redirected into the stdout buffer.
+
+3. stderr: standard error buffer -- if program having any errors, then those list of errors gets redirected into the "stderr" buffer and contents of stderr buffer gets displayed onto the standard output.
+	 	
+- redirection operators:
+1. input redirection operator (<) -- left cheveron
+2. output redirection operator (>) -- right cheveron
+3. error redirection operator (2>)
+
+# Multi-user commands:
+"multi-user" -- multiple users can be logged in into the single system at a time.
+- w, who, whoami, sudo adduser, sudo deluser, tty etc...
+	
++ Command Name: pipe (|) - this command can be used to give/pass output of one command as an input to another command.
+(|) -- symbol for pipe command
+- it internally creates temporary buffer for storing an o/p of one command
+	- head
+	- tail
+	- sort
+	- uniq
+	- cut
+	- tr
+	- cascadding of commands with pipe command
+	- less
+-------------------------------------------------------------------------
++ UNIX: UNICS: Uniplexed Information and Computing Services 
+	- as system arch design of UNIX is followed in all modern OS, and
+	hence UNIX is also called as mother of all modern operating systems.
+	- UNIX designed by develpoers for the developers
+	-  UNIX was developed in decade 1970's at AT&T Bell by Ken Thompson,
+	Denies Ritchie and team, and first time it was run on the machine
+	"DEC-PDP-7".
+----------------------------------------------------------------------
++ UNIX system design architecture:
+
+	int main(void)
+	{
+		int n1, n2, res;
+		
+		printf("enter n1 & n2 : ");
+	 
+		
+		res = n1 + n2;
+		printf("res = %d\n", res);
+		
+		return 0;
+	}
+	
++ system calls : are the functions defined in C, C++ and Assembly Lanaguge which provides interface of the services made avaialble by the kernel for the user (programmer user).
+in other words:
+programmer can call services provided by the kernel in the program either by giving call to the library functions from which internally call make to the system calls or can dierctly give call to the system calls.  
+	
+	- In UNIX: 64 system calls
+	- In Linux: 300 system calls
+	- In Windows: more than 3000 system calls
+	
+	
++ there six catagories of system calls:
+1. fileio system calls: open(), close(), read(), write(), lseek(), unlink() etc...
+2. process control system calls: fork(), exec(), _exit(), wait() etc....
+3. inter process communication system calls: shmget(), shmat(), shmdt(), signal(), kill() etc.....
+4. device manipulation system calls: open(), read(), write(), close(), ioctl() etc...
+5. accounting information system calls: getpid(), getppid(), stat() etc...
+6. protection & security system calls: chmod(), chown() etc....
+	
+
+- an interrupt is a signal sent by any io device to the CPU due to which it stops an execution of one process and start executing another process.
+- system calls are also reffered as "software interrupts".
+		
++ dual mode protection:
+- there are two CPU modes:
+1. "user mode" - restricted mode/unpreviledged mode/slave mode
+2. "kernel mode" - system mode/ previledged mode/unrestricted mode/monitor mode/supervisor mode/master mode.
+	
+	- for user mode => mode bit = 1
+	- for kernel mode => mode bit = 0	
+----------------------------------------------------------------------
+# Process Management:
++ What is Program?
+- "Program" is a set of instructions given to the machine to do specific task.
+- program is a passive entity
+- program has - exe header/primary header, bss section, data section, rodata section, code/text, section, symbol table etc...
+
++ What is Process?
+- program in execution
+- running program is called as a process.
+- process is an active entity
+- when program gets loaded into the main memory it is reffered as a process.
+- process has - stack section, heap section, data section, bss section, rodata section and code section.
+
+- when we execute a program, loader first verifies file format of an executable file if it matches then it check magic number and if both the matches then only it loads program into the main memory, i.e. first one structure gets created into the kernel space in which info about running program/process can be kept reffered as "PCB" - Process Control Block, can be used to control an execution of a program.
+- loader loads code section, data section, bss section, rodata section into the main memory in user space, and two new sections gets added for the process:
+1. stack section: contains function activation records of called functions
+2. heap section: dynamically allocated memory in a program.
+- PCB is also reffered as "Process Descriptor", in Linux it is a reffered as "Task Control Block".
+- PCB contains all required info to control an execution of a process, it mainly contains:
+	- "pid": process id - unique identifier of a process
+	- PC - Program Counter
+	- SP - Stack Pointer
+	- cpu scheduling info like priority, sched algo etc..
+ 	- memory mgmt info: base and limit values
+ 	- info about resources allocated for the process
+ 	- info about i/o devices
+ 	- execution context
+ 	etc......
+
++ states of process:
+1. new state - when an execution of a program is started or upon process submission state of the process is considered as a new state.
+2. ready state - when a process is in a main memory and waiting for the cpu time state of the process is considered as ready state.
+3. running state - when the cpu is currently executing any process state of the process is reffered as a running state.
+4. waiting state - when any process is currently in a running state and due to an io request has been arrived for that process, process chage its state from running to waiting, and it can be kept onto the waiting queue of that device.
+5. terminated state - when an execution of a program is completed i.e. upon process termination process goes into the terminated state.
+	   
++ Kernel data structures:
+1. job queue: it contains list of PCB's of all submitted processes
+2. ready queue: it contains list of PCB's of processes which are in a main memory and waiting for the CPU.
+3. waiting queue: it contains list of PCB's of processes which are waiting for that specific device.
+
++ dispatcher -- it is a system program which stops an execution of one process and starts executing another process, i.e. it loads process from the main memory onto the CPU.
+- time required for the dispatcher to stops an execution of one process and starts execution another process is reffered as "dispatcher latency".
+
++ "context-switch": during context switch the cpu gets switched from one process to another process.
+- "state-save" - when an interrupt is occured an execution context of the suspended process gets saved into its PCB.
+- "state-restore" - an execution context of the process scheduled by the cpu scheduler gets copied from its PCB by the dispatcher and gets restored onto the cpu registers.
+- context switch = state-save of suspended process and state-restore of the process which is scheduled by the cpu scheduler. 	
+- during context-switch the cpu gets switched from an execution context of one process onto an execution context of another process.
+
++ Features of an OS:
+1. Multi-user: system in which multiple users can be loggedon at a same.
+OR system in which the CPU can execute multiple programs of multiple user concurrently/
+simultaneously.
+
+2. Multi-tasking/Time-Sharing: system in which the CPU can execute multiple programs seems to be concurrently/simultaneously.
+OR system in which the CPU time gets shared among all running programs.
+
+i.e. "The CPU can execute only one program/process at a time".
+
+- Multi-tasking can be achieve by two ways:
+	1. process based multi-tasking
+	2. thread based multi-tasking
+
+3. Multi-Programming: system in which multiple processes can be submitted at once OR an execution of multiple programs can be started into the system into the single system at once.
+- "degree of multi-programming": number of programs that can be submitted into the system at a time.
+
+4. Multi-Processor: system can run on machine in which more than one CPU's are connected in a closed circuit.
+
+5. Multi-Threading: system in which the CPU can execute mutliple threads of either same process or different processes processes seems to be concurrently.
+
+i.e. "The CPU can execute only one thread of any one process at a time".
+ 
+Q. What is thread?
+	- thread is the smallest indivisible part of a process
+	- thread is the smallest execution unit of a process
+	- thread is a light weight process
+------------------------------------------------------------------------
+DAY-04:
+# Linux Programming Tools:
+
+# vi editor, gcc -- make utility
++ vi editor: "visual editor" is developed by "Bill Joy" at UCB at the time of developement of BSD UNIX by UCB.
+- vi editor is very flexible editor can be used to write simple text file as well source files.
+- "vim" is an improved version of "vi" editor.
+- bydefault settings for vi editor we can write in a file by the name .vimrc and the
+location of this file must be user's home directory.
+----------------------------------------------------------------------------------
++ how to write/apply setting for vi editor in a ".vimrc" file:
+	step1: open/create .vimrc file in user's home dir
+		- we can go to the home dir -- $cd ~
+		- we can open/create .vimrc file -- $vim .vimrc
+		OR another way -- we can open/create .vimrc from any location with the help of
+		following command:
+			$vim ~/.vimrc OR $vim /home/sunbeam/.vimrc
+			
+	step2: write setting inside .vimrc file
+	
+		set autoindent  "enable auto indentation
+		set smartindent "enable smart indentation
+		set cindent     "enable c indentation
+		set showmatch   "show matching parenthesis
+		set number      "enable line numbers
+		set nowrap      "no line wrapping
+		set shiftwidth=2        "round indent actions to multiple of 2
+		set autowriteall        "enable autocompletion feature for words
+		set backspace=2 "backspace = 2 spaces
+		set tabstop=2   "tab = 2 spaces
+		syntax on       "enable syntax highlighting
+	
+	step3: save the changes did in .vimrc file and close the file.
+----------------------------------------------------------------------------------		
+- pls check the command: $vimtutor
+
+- Editor works in two modes
+- Insert (Edit) mode : Press "i"
+- Command mode : Press "Esc"
+- In insert mode we can edit/insert/append data into the file
+- In command mode we can use commands for editing file contents as well operations  like copy+paste, cut+paste, navigation etc....
+- To open/create a file using vi editor
+$vim filepath
+- vi editor basic commands
+:w -> write
+:q -> quit
+:wq -> write and quit
+:q! -> quit without saving
+
+- vi editor copy/paste related commands:
+yy -> copy current line
+n yy -> copy n lines from cursor
+:m,ny -> copy from mth line to nth line
+p -> paste
+dd -> cut current line
+n dd -> cut n lines from cursor
+:m,nd -> cut from mth line to nth line
+u -> undo
+y$ -> copy from cursor to end of line
+y^ -> copy from cursor to start of line
+yw -> copy current word
+n yw -> copy n words after the cursor
+d$ -> cut from cursor to end of line
+d^ -> cut from cursor to start of line
+dw -> cut current word
+n dw -> cut n words after the cursor
+---------------------------------------------------------
++ "make" is a build automation tool used in Linux, it is GNU Proejct.
+- make utility can be used for build project, to execute program as well as clean the project.
+- make utility works only in a current dir
+- current dir must contains atleast one makefile, and name of this makefile must be either "makefile" or "Makefile" -- so that make utiliy runs makefile in a current directory.
+----------------------------------------------------------------------
+# process control system calls: fork(), exec(), _exit(), wait() etc.....
++ fork() system call:
+ - fork() syscall - to create a child/new process
+ - fork() creates a child process by duplicating calling process.
+ - calling process --> parent process
+ - new process --> child process
+ - on success, fork() returns "pid" of child to the parent process and
+ "0" to the child process and on failure it returns -1.
+ 	
+ - explore further by using command:
+ 	$man 2 fork
+ 	
++ "orphan process" - when parent process terminates before child, it process beomes orphan and ownership of orphan process will be taken by the "init" process.
+ 
++ "zombie process": if child process terminates before its parent and parent continues execution without reading an exit status of the child,
+PCB of the child process remains present in the main memory even after
+termination in a defunt state, this state of a child process is also
+reffered as zombie state.
+- to avoid zombie state of a child process wait() system call can be
+used.
+ 
++ ps command:
+$ps -t pts/0 -o pid,ppid,cmd
+$ps -e -t pts/0 -o pid,ppid,cmd
+
++ "exec" system call family of functions:
+ - execl, execlp, execle, execv, execvp, execvpe - execute a file
+ i.e. these functions used to load new program (i.e. binary) into the
+ memory space of calling process.
+ 	l - list
+ 	p - path variable
+ 	v - vector
+ 	e - environment parameters
+=======================================================================
++ fileio system calls:
+
+fopen() - to open a file or to create new file
+fclose() - to close a file
+fprintf(), printf(), fputs(), fputc(), fwrite() - to write data into the file
+fscanf(), scanf(), fgets(), fgetc(), fread() - to read data from the file
+
+- modes/purpose of file opening: we can open a file in any one of the following 6 modes in C:
+	"r" - read only
+	"w" - write only
+	"a" - append only
+	"r+" - read as well as write
+	"w+" - write as well read
+	"a+" - append as well read
+
++ fileio system calls:
+open() - to open a file or to create new file
+close() - to close a file
+write() - to write data into the file
+read() - to read data from the file
+lseek() - to reposition byte offset/to move the file cursor/fileposition
+unlink() - to delete a file
+rename() - to rename a file
+
+- In any programming language (c/c++, java etc...) we can perform operations on file like:
+	- to open file/to create a new file
+	- to write data into the file
+	- to read data from the file
+	- to append data into the file
+	- to close the file
+	- to move cursor in the file at specific position
+	etc......
+	by using set of library functions.
+	
++ C Programming Language Library functions: 
+fopen(), fclose(), printf(), fprintf(), fputc(), fputs(), fwrite(), scanf(), fscanf(), fgetc(), fgets(), fread(), fseek(). 
+----------------------------------------------------------------		
+# open() syscall: open and possibly create a new file
+- header files need to include are:
+	fcntl.h, sys/types.h & sys/stat.h
+	
+int open( const char *filepath, int flags);
+int open( const char *filepath, int flags, mode_t mode);
+
+arg1 => const char *filepath – whereas filepath may be an absolute path/relative of the file to be open/create.
+		
+arg2 => int flags - mode/purpose in which we want to open a file: multiple options can be seperated by bitwise OR operator, i.e. if we want to create as well as open file for read as well as write and as well for appending then we can seperate flags like: 
+O_CREAT | O_RDWR | O_APPEND
+
+	O_CREAT – to create a new file
+	O_APPEND – to append file
+	O_WRONLY – write only
+	O_RDONLY – read only
+	O_RDWR – read as well as write
+
+		
+arg3 => if open system call contains O_CREAT in a second arg, then only we suppose to pass third arg -- mode bits -- to assign access perms for that file in an octal format.
+		
+e.g. 0644 – leading 0 for octal constant 
+	user		: 6 = read (4) + write (2) perms
+	grp members	: 4 = read (4) only
+	other		: 4 = read (4) only
+		
+
+return value: 
+- on success: new file descriptor of type smallest positive int gets returned which can be used in subsequent system calls like read(), write(), etc... to refer the open file. 
+- on failure: it returns -1 and error number is set appropriately.
+ 
++ write():
+ssize_t write(int fd, const void *buf, size_t count);
+- write() writes upto count bytes from buffer starting at buf to the file reffered to by the file descriptor fd.
+
+arg1 => fd : int -– file descriptor of a file into which data to write.
+
+arg2 => buf : const void * -- buf is a constant void pointer points starting addr of the buffer contains data to write. 
+
+arg3 => count : size_t i.e. unsigned long int – max number of bytes of data to write into the file, number of bytes written may be less than count.
+ 
+return value =>
+- on success: the number of bytes written is returned (zero indicates nothing was written).
+- on error: -1 is returned, and errno is set appropriately.
+ 
++ read():
+ssize_t read(int fd, void *buf, size_t count);
+
+- read() attempts to read upto count bytes from file descriptor fd into the buffer starting at buf.
+ 
+arg1 => fd : int -- file descriptor of a file from which data is to read.
+
+arg2 => buf : void * -- buf pointer will contain starting addr of the buffer in which data to read from the file.
+
+arg3 => count : size_t – number of bytes of data to read from the file. 
+		
+return value:
+on success – the number of bytes read is returned(zero indicates end of file), and the file position is advanced by this number.
+
+on failure: -1 is returned, and errno is set appropriately. 
+		
++ close(): close a file descriptor
+int close(int fd);
+arg1 => fd : int – file descriptor of a file to be close.
+- close()  closes  a  file  descriptor,  so that it no longer refers to any file and may be reused.
+
+return value: close() returns zero on success  
+
++ lseek(): reposition read/write file offset
+off_t lseek(int fd, off_t offeset, int whence);
+
+- lseek() repositions the file offset of the open file description associated with the file descriptor fd to the argument offset according to the directive whence.
+
+arg1 => fd : int -- file descriptor of a file into which want repositions the file offset.
+
+arg2 => offset : long unsigned int -- by how many bytes want to move file cur/filepos OR offset value gets added into the current filepos and accordingly 
+
+- offset value gets added into the current offset of the file.
+
+- if value of offset = -ve --> move filepos/file cur towards backward dir by offset bytes.
+- if value of offset = +ve --> move filepos/file cur towards forward dir by offset bytes.
+				
+arg3 => whence : int -- from which pos we want to move the file cur/filepos.
+value of arg3 can have any one out of three values:
+0 - SEEK_SET : from the begining of the file 
+1 – SEEK_CUR : from  the cur position of the file 
+2 – SEEK_END : from the end of the file 
+				
+return value: long int – lseek() returns cur byte position of type/current offset
+typedef long int off_t;
+			
+=> lseek(fd,0,0); --> set the file cur/filepos at the begining of the file.
+- rewind() -- internally gives call to above function call.
+			
+- lseek(fd,0,2); --> set file cur/filepos at the end of the file => lseek(fd,0,SEKK_END);
+		
+- lseek(fd, -offset, 1); --> move file cur/file pos towards backward dir by offset bytes from cur file pos.
+		
+- lseek(fd, offset, 1); --> move file cur/file pos towards forward dir by offset bytes from cur file pos.
+
++ unlink(): delete a name and possibly the file it refers to.
+int unlink(const char *filepath);
+- unlink() deletes a name from the filesystem. If that name was the last link to a file and no process have the file open, the file is deleted and the space it was using is made available for reuse.
+
+return value: int
+- on success, zero is returned.
+- on error, -1 is returned and errno is set appropriately.
+
++ rename(): change the location or name of the file
+int rename(const char *oldpath, const char *newpath); 
+-----------------------------------------------------------------
++ What is file?
+- file: file is a "named" collection of logically related data (information) gets stored onto the disk permanently.
+- file is a basic storage unit
+- file is a stream of bytes/records/lines
+- file = data + metadata
+	- data = actual data
+	- meta data = information about the file
+- actual data contains inside the file and information about the file gets stored inside a structure called as "FCB" - File Control Block/iNode.
+- iNode/FCB mainly contains:
+1. inode number - which is an unique identifier of a file index number. 
+2. name of the file
+3. type of the file
+4. size of the file
+5. location: parent dirpath
+6. access perms for user, group members & others
+7. time stamps
+8. link count i.e. no. of links exists for the file in a filesystem.
+etc.....
+	
+- iNode is C Structure in which information about the file can be store.
+- to display information about the file "stat" command can be used.
+$stat  filename -- displays information of the file
+$stat -f filename – displays information of the filesystem.
+		
++ filesystem: it is a way to store data onto the disk (or onto any storage device) in an organized manner so that data can be accessed from it efficiently and conveniently.
+- filesystem devides disk (partition) logically into the sectors.
+	
+1. boot sector/boot block: this block contains info about booting the system, e.g. bootstrap program, bootloader etc...
+	
+2. volume control block/super block: this block contains info about other blocks i.e. meta data like size of the partition, size of other blocks, total no. of data blocks, no. used and no. of unused data blocks etc...
+- super block contains all the required information which is required to control the disk operations.
+
+- size of boot block & super block are fixed -- and can be decided while filesystem creation.
+	
+3. master file table/inode list block: this block contains linked list of inode's ( array implementation of linked list ).
+- no. of inodes = no. of files on the disk and vice-versa
+- during runtime size of this block can be shrinked or grow.
+- when we create new file first inode gets created for that file and gets added into the inode list, and when we 
+delete any file, inode of that file gets deleted from the inode list.
+	
+4. data block: actual data of all files can be kept inside data block in a data blocks.
+- size of "data block" can be grow or shrinked during run time.
+- when we create any new file first inode of that file gets created.
+
+- when we create a new file it has 3 things:
+1. inode
+2. directory entry
+3. data blocks (optional)
+
++ directory file:		
+- directory is a special file, whose contents are names of files and sub dir's.
+- directory is a container which contains directory entries of files and sub dir's inside it.
+- directory entry of a file is nothing but the link of that file.
+- one file may has multiple dir entries but one file can have only one "inode".
+- directory entry: min two feilds: inode number & filename
+------------------------------------------------------------
+# open() system call internals:
+int fd = open("filepath", O_RDONLY, 0644);
+
+step1: it converts given filepath into its inode number.
+- filepath may be absolute path or it may relative path
+- algo which converts given filepath into its inode number is reffered as "namei" algorithm, it is called as "pathname translation".
+			
+step2: once open() syscall got the inode number of that file, its corresponding inode gets loaded into the main memory by searching it from inode list block, and inode entry of that file got added into one global table (kernel data structure) reffered as "in-memory inode table".
+	
+step3: when we open any file two entries gets created
+- one entry is in a "in-memory inode table" which is a global table (kernel data structure), and
+- second entry gets created into table reffered as "open file table".
+- open file table contains entries of all opened files.
+- per open() system call one entry gets created into the open file table
+- OFT : Open File Table entry contains:  
+1. link to the inode of that file which is in a main memory (in-memory inode table).
+2. file offset/byte offset i.e. cur filepos
+3. access perms
+etc....
+
+- when we open any file from a process, entry got created in a local table maintained by the kernel per process, reffered as OFDT "Open File Descriptor Table".
+which has link to the entry of that file in a "Open File Table".
+- In-Memory/In-Core Inode Table: contains list of inodes of all opened files.
+
+[ in-memory inode table --> array of iNodes(structure) ]
+[ open file descriptor table --> array pointers ]
+[ open file table --> array structures ]
+
+# hard link:
+- hard link is nothing but giving another name/filepath to the existing file.
+- for backup purpose we can create multiple hard links for regular file.
+- "ln" command can be used to create hard link, which internally gives calls to link() syscall.
+- we can create hard link for only existing file
+- $ln src_filepath dest_filepath
+- we can create hard link for a file at any location
+- when we create hard link for a file:
+	- no new file gets created
+	- new dir entry gets created into the dest parent dir
+	- link count in an inode gets incremented by 1
+- by using hard link we can access contents of an original file.
+- we can create multiple hard links for the same file
+- if we delete original file name, file contents still can be accessed with the help of hard link.
+- we cannot create hard link for "directory file". why ??
+
+# rm command:
+- internally makes call to unlink() syscall.
+- it deletes/removes dir entry i.e. delete the name
+- it decrements link count by 1 in an inode
+- if link count becomes 0 -- then it releases "inode" and "data blocks" which have allocated for that file, so that it can be reutilized for new files.
+		
+# symbolic link -- symlink() syscall:
+- "ln -s": command can be used to create symbolic link for any file.
+- new special file of type "linkable file" gets created
+- new directory entry got created into the dest parent dir.
+- it is advised while creating symbolic link we suppose to give absolute path of a source file path/original filepath.
+- linkable file contains information about original file i.e. it contains absolute path of an original file, so that original file can be accessed from anywhere quickly through its symbolic link.
+- if we delete original file then there is no use of its "symbolic link".
+- we can create symbolic file for "directory file" as well.
+		
++ filesystem is a way to store data onto the disk in an organized manner so that data can be accessed from it efficiently.
+	
++ filesystem divides disk/device/partition into sectors:
+1. boot sector/boot block
+2. volume control block/super block
+3. master file table/inode list block
+4. data block -- data blocks actual data
+		
+- "filesystem" gets stored onto the disk/partition, and data and inodes of files gets stored onto the "filesystem".
+- logical block size can be decided at the time creation of filesystem, it must be in a multiple of 512 bytes, i.e. 512*2/512*3/......, 1024, ......., 4096...
+- when we format any storage device -- we are creating new filesystem.
+
+- Formatting Tool in Linux – "mkfs".
+- Formatting Tool in Windows - "format"
+
+- physical block size can be decided at the time of disk manufactuaring.
+- usually physical block size = "512" bytes or in multiple of 512 bytes.
+	
++ "disk space allocation methods":
+- when any file requesting for new data blocks, data blocks gets allocated by the filesystem for that file and this is called as "disk space allocation".
+- there are three methods by which filesystem can allocate free data blocks for any file:
+	
+1. contiguos allocation method:
+- when any file is requesting for new data blocks, data blocks gets allocated for that in contiguos manner only, and information of data blocks gets stored into an inode of that file in following manner:
+- addr of starting data block, and
+- count -- count of no. of data blocks allocated for that file including starting data block.
+		
+- internal fragmentation: when disk space remains unused which is internal to the data block it is reffered as "internal fragmentation".
+- internal fragmentation can be reduced by reducing logical block size
+- advantages:
+ - allocation speed is faster
+ - sequential as well as random access is faster
+ - it is simple method
+- disadvantages:
+ - internal fragmentation
+ - filesize cannot grow after certain limit
+ - external fragmentation: as data blocks gets
+allocated for any file in contiguos manner only, if requested no. of data blocks are available into
+the disk, but due to unavailability of free data blocks in contiguos manner file request cannot be completed.
+
+2. linked allocation:
+- when file is requesting for new data blocks, data blocks gets allocated for a file randomly and linked list of all those data blocks gets maintained such that each data block contains actual data as well as addr of its next data block, whereas addr of starting data block and end data block can be kept into an inode of the file.
++ advantages:
+ - there is no external fragmentation
+ - file size can grow runtime i.e. no limit on file size
++ disadvantages:
+ - sequential and random access is slower than contiguos
+			
+3. index allocation:
+- when a file requesting for new data blocks, free data blocks gets allocated for a file and addresses of all allocated data blocks gets stored into any one of them refferred as an "index block", whereas addr of index block can be kept into an inode of the file.
++ advantages:
+ - there is no external fragmentation
+ - file size can grow upto certain limit i.e. till the
+index node is gets filled.
+ - to overcome this disadvantage multi-level indexing can be implemented in which primary index blocks will contain addresses of secondary index blocks,and secondary index blocks will contains addresses of data blocks allocated for the file.
+- multi-level indexing first time implemented by Denis Ritchie in UFS (UNIX File System).
+- access speed is faster than linked allocation but slower than contiguos allocation
++ disadvantages:
+- sequential and random access is slower than contiguos.
+
+# free space management mechanisms:
+- these are the meachanisms by which info about free data blocks can be kept inside a super block, so that when any file is requesting for free data blocks, filesystem referes super block and data blocks gets allocated for the file and accordingly updatation can be done.
+- there are four free space management mechanisms:
+
+1. bit vector: - array of bits
+- array of bits can be maintained in a super block
+- size of bit vector = total no. of data blocks
+- if nth bit = 0 => nth data block is free
+- if nth bit = 1 => nth data block is allocated
+- when any file is requesting for new data blocks, filesystem scans bit vector which is in a super block and wherever the value of bit is 0 those data blocks gets allocated for the file and value of bit will get set.
+	
+2. linked list:
+- linked list of free data blocks can be maintained in a data block itself and addr of first free data block of that list can be kept in a super block, so that if any file is requesting for new data blocks info about free data blocks can be read from super block and accordingly add and delete operations can be performed onto the linked list.
+	
+3. grouping:
+- grouping of free data blocks which are in a contiguos manner can be done in such manner that the last data block of the group will hold the addresses of all data blocks in that group and addr of next group as well, and addr of first group can be kept into the super block which will gets updated during runtime as per allocation of data blocks.
+	
+4. counting:
+- groups of free data blocks can be formed into the data block and information about
+those groups gets stored into the super block in a counting manner.
+----------------------------------------------------------------
+# Inter Process Communication:
+- there are two IPC mechanisms:
+1. shared memory model: under this model, processes can communicates with each other by means of reading and writing data
+into the "shared memory region/segment/area"
+
+2. message passing model: under this model, processes can communicates with each other by means of sending messages.
+
+
+------------------------------------------------------------
++ shell: it is an application program which acts like a protective layer on the top
+of the kernel, that takes commands, programs from the user interpret it and pass it
+to the kernel for an execution.
+- shell is also called as CLI: Command Line Interpreter.
+- command to check available shell programs exists in your system:
+	$ls -l /bin/*sh
+- to check the name of shell which is currently active/on which we are working currently:
+	$echo $SHELL
+- there are multile shell programs are available for Linux System:
+	bsh - bourne shell
+	bash -  bourne again shell
+	csh - c shell
+	ksh - korn shell developed by "David Korn"
+	etc...
+	
+	
++ script: it is simple text file in which we can write set of commands with programming
+constraints, instructions in its own syntax, and we can have call to the binaries as well inside the scripts.
+
+-----------------------------------------------------------------------------
++ how to write script:
+	step1: open/create a script file in vi editor give the name to file ends .sh
+	just a sake of convenience
+		$vim script.sh
+		
+	step2: write set of commands/write shell script program and save it
+	step3: assign execute perms to the script file/program
+		$chmod +x script.sh OR $chmod 0755 script.sh
+	step4: execute the script:
+		$./script.sh OR $bash script.sh
+	
+- shell programming language is typeless: i.e. no need to mention to data type
+for the variables
+- to assign value to variable:
+	var_name=100
+	
+- there are three types of quotes:
+	1. double quotes: string
+	2. single quotes: char constant
+	3. back quotes: if we want to assign/store result of any command to a variable
+	
++ operators in shell script programming language:
+	- logical operators:
+		-o --> logical OR
+		-a --> logical AND
+	- relational operators:
+		-gt -> greater than
+		-ge -> greater than or equal to
+		-lt -> less than
+		-le -> less than or equal to
+		-eq -> equal to equal to
+		-ne -> not equal to
+	- test commands:
+		-e filepath -> to check filepath is valid or not
+		-f filepath -> to check filepath is a regular file
+		-d filepath -> to check filepath is a dir file
+		-x filepath -> to check filepath is having execute perms
+		-w filepath -> to check filepath is having write perms
+		-r filepath -> to check filepath is having read perms
+		
+	
+ 	+ if statement:
+ 	
+ 	if [ cond ]
+ 	then
+ 		statement/s
+ 	fi
+ 	
+ 	+ if-else statement:
+ 	
+ 	if [ cond ]
+ 	then
+ 		statement/s
+ 	else
+ 		statement/s
+ 	fi
+
+	+ loops:
+	1. while loop:
+		# till the cond remains true statement/s inside loop gets executes
+		# when cond becomes false loops gets terminated
+		
+		while [ cond ]
+		do
+			statement/s
+		done
+		
+	2. until loop:
+		# till the cond remains false statement/s inside loop gets executes
+		# when cond becomes true loops gets terminated
+		
+		until [ cond ]
+		do
+			statement/s
+		done
+
+	3. for loop:
+	
+	for var_name in 1 2 3 4 5 6 7 8 9 10
+	do
+		statement/s
+	done
+	
+
+	+ positional paramaters:
+	- parameters which we pass to the script while executing script are reffered
+	as positional parameters (same like command line args in C).
+	
+	position paramteres ==> command line args
+	$# ==> argc
+	$0 ==> argv[0] ==> name of the script
+	$1 ==> argv[1]
+	$2 ==> argv[2]
+	.
+	.
+	.
+	
+	$* ==> all positional parameters
+	
+	$? ==> exit status of last executed command/program
+	
+
+	switch( choice )
+	{
+		case 0:
+				b
+	}
+	--------------------------------------------
+	+ switch control block:
+	
+	case $var_name in
+	1)
+		statement/s
+		;;
+	2) 
+		statement/s
+		;;
+	3)
+		statement/s
+		;;
+	*)
+		
+	esac
+	
+===================================================================================
+
